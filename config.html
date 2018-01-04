@@ -1,0 +1,204 @@
+<html>
+  <head>
+    <script>
+      if (typeof(Storage) !== "undefined") {
+
+      } else {
+          alert("No local storage");
+      }
+      function handleClick(myOption) {
+        document.getElementById("freeForm").style.display = 'none';
+        document.getElementById("timedForm").style.display = 'none';
+        console.log('New value: ' + myOption.value);
+        localStorage.setItem(myOption.name, myOption.value);
+        document.getElementById(myOption.value+"Form").style.display = 'inline';
+      }
+      function save_all() {
+        console.log("save_all");
+        var elements = document.getElementById("form_stages").elements;
+        console.log(elements);
+        for (var i = 0; i < elements.length; i++) {
+          if(elements[i].localName == "input") {
+              console.log(elements[i].name + " - " + elements[i].value);
+              localStorage.setItem(elements[i].name, elements[i].value);
+          }
+        }
+        var elements = document.getElementById("free_form_stages").elements;
+        console.log(elements);
+        for (var i = 0; i < elements.length; i++) {
+          if(elements[i].localName == "input") {
+              console.log(elements[i].name + " - " + elements[i].value);
+              localStorage.setItem(elements[i].name, elements[i].value);
+          }
+        }
+      }
+      function fill_on_load(){
+        console.log("fill_on_load");
+        for (var i = 0; i < localStorage.length; i++){
+          name = localStorage.key(i);
+          htmlobject = document.getElementsByName(name);
+          for (var j = 0; j < htmlobject.length; j++){
+            console.log(htmlobject[j].type);
+            if (htmlobject[j].value == localStorage.getItem(name)) {
+              htmlobject[j].click();
+            } else if (htmlobject[j].name == name && htmlobject[j].type != "radio") {
+              htmlobject[j].value = localStorage.getItem(name)
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body onload="fill_on_load()">
+    <div class="header">
+      <h1>Configure the timer</h1>
+    </div>
+    <div class="">
+      <form name="type_selector">
+        <input type="radio" name="options" value="free" onclick="handleClick(this);"> Free
+        <input type="radio" name="options" value="timed" onclick="handleClick(this);"> Timed
+      </form>
+    </div>
+    <div id="freeForm" class="">
+        <button onclick="save_all()">safe all</button>
+      <form id="free_form_stages">
+      <fieldset>
+        <legend>States:</legend>
+        <fieldset>
+          <legend>Shooting</legend>
+          <table><tr>
+            <td>
+              Color:
+            </td><td>
+              <input type="color" name="freeShootingColor" value="#43A047">
+            </td>
+          </tr><tr>
+            <td>
+              Buzzers:
+            </td><td>
+              <input type="number" name="freeShootingBuzz" value="1">
+            </td>
+          </tr></table>
+        </fieldset>
+        <fieldset>
+          <legend>Stop</legend>
+          <table><tr>
+            <td>
+              Color:
+            </td><td>
+              <input type="color" name="freeStopColor" value="#E53935">
+            </td>
+          </tr><tr>
+            <td>
+              Buzzers:
+            </td><td>
+              <input type="number" name="freeStopBuzz" value="3">
+            </td>
+          </tr></table>
+        </fieldset>
+      </fieldset>
+      </form>
+    </div><!-- free -->
+    <div id="timedForm" class="">
+        <button onclick="save_all()">safe all</button>
+      <form id="form_stages">
+      <fieldset>
+        <legend>number of archers per lane</legend>
+            <input type="number" name="archers_per_lane" min="1" max="6" value="2"> A / B / C / D / E / F
+      </fieldset>
+      <fieldset>
+        <legend>States:</legend>
+        <fieldset>
+          <legend>Get Ready</legend>
+          <table><tr>
+            <td>
+              Color:
+            </td><td>
+              <input type="color" name="getReadyColor" value="#E53935">
+            </td>
+          </tr><tr>
+            <td>
+              Time (sec):
+            </td><td>
+              <input type="number" name="getReadyTime" value="20">
+            </td>
+          </tr><tr>
+            <td>
+              Buzzers:
+            </td><td>
+              <input type="number" name="getReadyBuzz" value="2">
+            </td>
+          </tr></table>
+        </fieldset>
+        <fieldset>
+          <legend>Shooting</legend>
+          <table><tr>
+            <td>
+              Color:
+            </td><td>
+              <input type="color" name="ShootingColor" value="#43A047">
+            </td>
+          </tr><tr>
+            <td>
+              Time (sec):
+            </td><td>
+              <input type="number" name="ShootingTime" value="120">
+            </td>
+          </tr><tr>
+            <td>
+              Buzzers:
+            </td><td>
+              <input type="number" name="ShootingBuzz" value="1">
+            </td>
+          </tr></table>
+        </fieldset>
+        <fieldset>
+          <legend>Warning</legend>
+          <table><tr>
+            <td>
+              Color:
+            </td><td>
+              <input type="color" name="WarningColor" value="#FB8C00">
+            </td>
+          </tr><tr>
+            <td>
+              Time (sec):
+            </td><td>
+              <input type="number" name="WarningTime" value="30"> covers the last x seconds from shooting phase
+            </td>
+          </tr><tr>
+            <td>
+              Buzzers:
+            </td><td>
+              <input type="number" name="WarningBuzz" value="0">
+            </td>
+          </tr></table>
+        </fieldset>
+        <fieldset>
+          <legend>Stop</legend>
+          <table><tr>
+            <td>
+              Color:
+            </td><td>
+              <input type="color" name="StopColor" value="#E53935">
+            </td>
+          </tr><tr>
+            <td>
+              Time (sec):
+            </td><td>
+              <input type="number" name="StopTime" value="-1"> (-1 for no timer)
+            </td>
+          </tr><tr>
+            <td>
+              Buzzers:
+            </td><td>
+              <input type="number" name="StopBuzz" value="3">
+            </td>
+          </tr></table>
+        </fieldset>
+      </fieldset>
+      </form>
+    </div>
+
+  </body>
+</html>
