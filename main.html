@@ -1,0 +1,43 @@
+<html>
+<head>
+  <style>
+    body {
+     min-height: 95%;
+    }
+  </style>
+
+	<script>
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+	async function clickBody() {
+		console.log("clickbody");
+		var buzzer1 = document.getElementById('buzzer1');
+		var buzzer2 = document.getElementById('buzzer2');
+		var buzzer3 = document.getElementById('buzzer3');
+		if (document.body.style.backgroundColor === "red") {
+	    		document.body.style.backgroundColor = "green";
+			buzzer1.play();
+			console.log("buzzer1");
+		} else {
+			document.body.style.backgroundColor = "red";
+			buzzer1.play();
+			console.log("buzzer1");
+			await sleep(1008);
+			buzzer2.play();
+			console.log("buzzer2");
+			await sleep(1008);
+			buzzer3.play();
+			console.log("buzzer3");
+		}
+	}
+	</script>
+</head>
+
+<body style="background-color:red;" onclick="clickBody();">
+<audio id="buzzer1" src="buzzer.wav" preload="auto"></audio>
+<audio id="buzzer2" src="buzzer.wav" preload="auto"></audio>
+<audio id="buzzer3" src="buzzer.wav" preload="auto"></audio>
+<audio id="buzzer4" src="buzzer.wav" preload="auto"></audio>
+</body>
+</html>
