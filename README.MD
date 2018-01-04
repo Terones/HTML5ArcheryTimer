@@ -1,0 +1,21 @@
+## localStorage variables and defaults
+- type of timer
+  - free (no timer continue on click)
+  - timed (if time is defined a timer will run an continue to next stage)
+- state
+  - Get Ready
+    - red #E53935
+    - 20 sec
+    - 2 buzzers
+  - Shooting
+    - green #43A047
+    - 120 sec
+    - 1 buzzer
+  - Warning
+    - orange #FB8C00
+    - last 30 sec of shooting
+  - Stop
+    - red #E53935
+    - 3 buzzers
+- Number of archers
+  - A / B / C / D / E / F
