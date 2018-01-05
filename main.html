@@ -1,43 +1,65 @@
 <html>
 <head>
   <style>
-    body {
-     min-height: 95%;
-    }
+		body {
+			margin:0;
+			padding:0
+		}
+		div.max-viewport {
+			border-width: 0px;
+    	height:100vh;
+			width: 100vw;
+		}
+		#phase-GetReady {
+			background-color: #E53935;
+		}
+		#phase-Shooting {
+			background-color: #43A047;
+		}
+		#phase-Warning {
+			background-color: #FB8C00;
+		}
+		#phase-Stop {
+			background-color: #E53935;
+		}
+		div.hidden {
+			display: none;
+		}
+		h1 {
+    	text-align: center;
+		}
   </style>
 
 	<script>
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+					
+	var audio = new Audio('buzzer.wav');
+	var audiotime = 1008;
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+		//await sleep(1008);
+	}
 	async function clickBody() {
 		console.log("clickbody");
-		var buzzer1 = document.getElementById('buzzer1');
-		var buzzer2 = document.getElementById('buzzer2');
-		var buzzer3 = document.getElementById('buzzer3');
 		if (document.body.style.backgroundColor === "red") {
-	    		document.body.style.backgroundColor = "green";
-			buzzer1.play();
-			console.log("buzzer1");
+			document.body.style.backgroundColor = "green";
+			audio.play();
+			await sleep(audiotime);
 		} else {
 			document.body.style.backgroundColor = "red";
-			buzzer1.play();
-			console.log("buzzer1");
-			await sleep(1008);
-			buzzer2.play();
-			console.log("buzzer2");
-			await sleep(1008);
-			buzzer3.play();
-			console.log("buzzer3");
+			audio.play();
+			await sleep(audiotime);
+			audio.currentTime = 0;
+			await sleep(audiotime);
+			audio.currentTime = 0;
 		}
 	}
 	</script>
 </head>
 
 <body style="background-color:red;" onclick="clickBody();">
-<audio id="buzzer1" src="buzzer.wav" preload="auto"></audio>
-<audio id="buzzer2" src="buzzer.wav" preload="auto"></audio>
-<audio id="buzzer3" src="buzzer.wav" preload="auto"></audio>
-<audio id="buzzer4" src="buzzer.wav" preload="auto"></audio>
+		<div id="phase-GetReady" class="hidden max-viewport"><h1>20</h1></div>
+		<div id="phase-Shooting" class="hidden max-viewport"><h1>120</h1></div>
+		<div id="phase-Warning" class="hidden max-viewport"><h1>30</h1></div>
+		<div id="phase-Stop" class="max-viewport"><h1>STOP</h1></div>
 </body>
 </html>
