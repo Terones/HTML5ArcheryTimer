@@ -1,65 +1,26 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <style>
-		body {
-			margin:0;
-			padding:0
-		}
-		div.max-viewport {
-			border-width: 0px;
-    	height:100vh;
-			width: 100vw;
-		}
-		#phase-GetReady {
-			background-color: #E53935;
-		}
-		#phase-Shooting {
-			background-color: #43A047;
-		}
-		#phase-Warning {
-			background-color: #FB8C00;
-		}
-		#phase-Stop {
-			background-color: #E53935;
-		}
-		div.hidden {
-			display: none;
-		}
-		h1 {
-    	text-align: center;
-		}
-  </style>
-
-	<script>
-					
-	var audio = new Audio('buzzer.wav');
-	var audiotime = 1008;
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-		//await sleep(1008);
-	}
-	async function clickBody() {
-		console.log("clickbody");
-		if (document.body.style.backgroundColor === "red") {
-			document.body.style.backgroundColor = "green";
-			audio.play();
-			await sleep(audiotime);
-		} else {
-			document.body.style.backgroundColor = "red";
-			audio.play();
-			await sleep(audiotime);
-			audio.currentTime = 0;
-			await sleep(audiotime);
-			audio.currentTime = 0;
-		}
-	}
-	</script>
+  <title>Archery Timer</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="archery_timer_runner.js"></script>
 </head>
 
-<body style="background-color:red;" onclick="clickBody();">
-		<div id="phase-GetReady" class="hidden max-viewport"><h1>20</h1></div>
-		<div id="phase-Shooting" class="hidden max-viewport"><h1>120</h1></div>
-		<div id="phase-Warning" class="hidden max-viewport"><h1>30</h1></div>
-		<div id="phase-Stop" class="max-viewport"><h1>STOP</h1></div>
+<body style="background-color:red;" onload="on_load_Body();">
+		<div id="phase-GetReady" name="phases" class="hidden max-viewport">
+      <h1 id="h1-phase-GetReady"></h1>
+    </div>
+		<div id="phase-Shooting" name="phases" class="hidden max-viewport">
+      <h1 id="h1-phase-Shooting"></h1>
+    </div>
+		<div id="phase-Warning" name="phases" class="hidden max-viewport">
+      <h1 id="h1-phase-Warning"></h1>
+    </div>
+		<div id="phase-Stop" name="phases" class="max-viewport">
+      <h1 id="h1-phase-Stop">STOP</h1>
+    </div>
+    <div id="footer">
+      <p class="archers_per_lane">A B C D E F </p>
+    </div>
 </body>
 </html>
