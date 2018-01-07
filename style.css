@@ -20,7 +20,7 @@ h1 {
   text-transform: uppercase;
 }
 p.archers_per_lane {
-  letter-spacing: 5px;
+  letter-spacing: 20px;
   font-size: 10vw;
   margin:0;
   padding:0;
@@ -35,4 +35,7 @@ p.archers_per_lane {
     display:flex;
     align-items: bottom;
     justify-content: center;
+}
+.inverted {
+	filter: invert(100%);
 }

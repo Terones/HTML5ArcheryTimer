@@ -2,21 +2,13 @@ var buzzer = new Audio('buzzer.wav');
 var audiotime = 1008;
 var runnermode = localStorage.getItem("runnermode") === null ? "free" : localStorage.getItem("runnermode");
 var currentphase = "phase-Stop";
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('').map((c) => c.toUpperCase());
+var archers_per_lane = localStorage.getItem("archers_per_lane") === null ? 1 : localStorage.getItem("archers_per_lane");
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
   //await sleep(audiotime);
 }
-// async function clickBody() {
-// 	console.log("clickbody");
-// 	if (document.body.style.backgroundColor === "red") {
-// 		document.body.style.backgroundColor = "green";
-// 		audio.play();
-// 		await sleep(audiotime);
-// 	} else {
-// 		document.body.style.backgroundColor = "red";
 
-// 	}
-// }
 function on_load_Body() {
   //hide_all_phases();
   console.log("Runnermode = " + runnermode);
@@ -24,15 +16,20 @@ function on_load_Body() {
   add_onclick_all_phases();
   if (runnermode == "free"){
     set_div_colors_free();
+    disable_archers_per_lane();
   } else {
     set_div_colors_timed();
+    enable_archers_per_lane();
   }
 }
 function add_onclick_all_phases(){
   var phases = document.getElementsByName("phases");
   for (var i = 0; i < phases.length; i++) {
-    phases[i].onclick = (activate_next_phase());
+    add_next_phase_function(phases[i]);
   }
+}
+function add_next_phase_function(htmlObject){
+  htmlObject.onclick = (function(){activate_next_phase();});
 }
 function hide_all_phases(){
   var phases = document.getElementsByName("phases");
@@ -56,7 +53,11 @@ function set_div_colors_timed(){
         phases[i].style.backgroundColor = localStorage.getItem("WarningColor") === null ? "#FB8C00" : localStorage.getItem("WarningColor");
         break;
       case "phase-Stop":
-        phases[i].style.backgroundColor = localStorage.getItem("StopColor") === null ? "#E53935" : localStorage.getItem("StopColor");
+        stopcolor = localStorage.getItem("StopColor") === null ? "#E53935" : localStorage.getItem("StopColor");
+        phases[i].style.backgroundColor = stopcolor;
+        htmlObject = document.getElementById("h1-phase-Stop")
+        htmlObject.classList.add("inverted");
+        htmlObject.style.color = stopcolor;
         break;
       default:
     }
@@ -78,6 +79,7 @@ function set_div_colors_free(){
 }
 function activate_next_phase(){
   hide_all_phases();
+  console.log("activate_next_phase");
   if (runnermode == "timed"){
     activate_next_phase_timed();
   } else {
@@ -90,6 +92,9 @@ function activate_next_phase_timed(){
     case "phase-GetReady":
       nextphase = "phase-Shooting";
       document.getElementById(nextphase).classList.remove("hidden");
+      var ShootingTime = localStorage.getItem("ShootingTime") === null ? 120 : localStorage.getItem("ShootingTime");
+      var WarningTime = localStorage.getItem("WarningTime") === null ? 120 : localStorage.getItem("WarningTime");
+      starttimer("h1-"+nextphase,ShootingTime,WarningTime);
       break;
     case "phase-Shooting":
       nextphase = "phase-Warning";
@@ -150,4 +155,30 @@ async function play_buzzer(x) { // jshint ignore:line
     console.log("play_buzzer again");
 	  await sleep(audiotime); // jshint ignore:line
   }
+}
+function enable_archers_per_lane(){
+  var archers_per_lane_placeholder = document.getElementById('archers_per_lane');
+
+  disable_archers_per_lane();
+  for (var i = 0; i < archers_per_lane; i++) {
+    var ArcherSpan = document.createElement('span');
+    ArcherSpan.innerHTML = alphabet[i];
+    ArcherSpan.id = "archer"+i;
+    archers_per_lane_placeholder.appendChild( ArcherSpan );
+    console.log("Add" + alphabet[i]);
+  }
+}
+function disable_archers_per_lane(){
+  var archers_per_lane_placeholder = document.getElementById('archers_per_lane');
+
+  while( archers_per_lane_placeholder.firstChild ) {
+      archers_per_lane_placeholder.removeChild( archers_per_lane_placeholder.firstChild );
+  }
+}
+function oposite_color(htmlObject, base_color){
+  htmlObject.classList.add("inverted");
+  htmlObject.style.color = base_color;
+}
+function starttimer(htmlId,starttime,endtime = 0){
+  
 }
