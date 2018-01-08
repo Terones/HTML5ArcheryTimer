@@ -88,29 +88,45 @@ function activate_next_phase(){
 }
 function activate_next_phase_timed(){
   var nextphase;
+  var buzzTimes;
+  var ShootingTime = localStorage.getItem("ShootingTime") === null ? 120 : localStorage.getItem("ShootingTime");
+  var WarningTime = localStorage.getItem("WarningTime") === null ? 30 : localStorage.getItem("WarningTime");
+  var getReadyTime = localStorage.getItem("getReadyTime") === null ? 30 : localStorage.getItem("getReadyTime");
+  var StopTime = localStorage.getItem("StopTime") === null ? 30 : localStorage.getItem("StopTime");
   switch (currentphase) {
     case "phase-GetReady":
       nextphase = "phase-Shooting";
       document.getElementById(nextphase).classList.remove("hidden");
-      var ShootingTime = localStorage.getItem("ShootingTime") === null ? 120 : localStorage.getItem("ShootingTime");
-      var WarningTime = localStorage.getItem("WarningTime") === null ? 120 : localStorage.getItem("WarningTime");
+      buzzTimes = localStorage.getItem("ShootingBuzz") === null ? 1 : localStorage.getItem("ShootingBuzz");
+      play_buzzer(buzzTimes);
       starttimer("h1-"+nextphase,ShootingTime,WarningTime);
       break;
     case "phase-Shooting":
       nextphase = "phase-Warning";
       document.getElementById(nextphase).classList.remove("hidden");
+      buzzTimes = localStorage.getItem("WarningBuzz") === null ? 0 : localStorage.getItem("WarningBuzz");
+      play_buzzer(buzzTimes);
+      starttimer("h1-"+nextphase,WarningTime);
       break;
     case "phase-Warning":
+      //TODO: Code for next archer!
       nextphase = "phase-Stop";
       document.getElementById(nextphase).classList.remove("hidden");
+      buzzTimes = localStorage.getItem("StopBuzz") === null ? 3 : localStorage.getItem("StopBuzz");
+      play_buzzer(buzzTimes);
       break;
     case "phase-Stop":
       nextphase = "phase-GetReady";
       document.getElementById(nextphase).classList.remove("hidden");
+      buzzTimes = localStorage.getItem("getReadyBuzz") === null ? 2 : localStorage.getItem("getReadyBuzz");
+      play_buzzer(buzzTimes);
+      starttimer("h1-"+nextphase,getReadyTime);
       break;
     default: //go to stop as a default
       nextphase = "phase-Stop";
       document.getElementById(nextphase).classList.remove("hidden");
+      buzzTimes = localStorage.getItem("StopBuzz") === null ? 3 : localStorage.getItem("StopBuzz");
+      play_buzzer(buzzTimes);
   }
   currentphase = nextphase;
 }
@@ -180,5 +196,18 @@ function oposite_color(htmlObject, base_color){
   htmlObject.style.color = base_color;
 }
 function starttimer(htmlId,starttime,endtime = 0){
-  
+  if (starttime < 0)
+    return;
+
+  document.getElementById(htmlId).innerHTML = starttime;
+  var current_count_down = starttime++;
+  var count_down = setInterval(function() {
+    current_count_down--;
+    document.getElementById(htmlId).innerHTML = current_count_down;
+    if (current_count_down <= endtime) {
+      clearInterval(count_down);
+      activate_next_phase();
+    }
+
+  },1000);
 }
