@@ -1,9 +1,11 @@
 var buzzer = new Audio('buzzer.wav');
-var audiotime = 1008;
+var audiotime = 1018;
 var runnermode = localStorage.getItem("runnermode") === null ? "free" : localStorage.getItem("runnermode");
 var currentphase = "phase-Stop";
+var current_line_of_archers = 0;
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('').map((c) => c.toUpperCase());
 var archers_per_lane = localStorage.getItem("archers_per_lane") === null ? 1 : localStorage.getItem("archers_per_lane");
+var count_down;
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
   //await sleep(audiotime);
@@ -55,7 +57,7 @@ function set_div_colors_timed(){
       case "phase-Stop":
         stopcolor = localStorage.getItem("StopColor") === null ? "#E53935" : localStorage.getItem("StopColor");
         phases[i].style.backgroundColor = stopcolor;
-        htmlObject = document.getElementById("h1-phase-Stop")
+        htmlObject = document.getElementById("h1-phase-Stop");
         htmlObject.classList.add("inverted");
         htmlObject.style.color = stopcolor;
         break;
@@ -110,10 +112,20 @@ function activate_next_phase_timed(){
       break;
     case "phase-Warning":
       //TODO: Code for next archer!
-      nextphase = "phase-Stop";
-      document.getElementById(nextphase).classList.remove("hidden");
-      buzzTimes = localStorage.getItem("StopBuzz") === null ? 3 : localStorage.getItem("StopBuzz");
-      play_buzzer(buzzTimes);
+      if (archers_per_lane > current_line_of_archers){
+        nextphase = "phase-Stop";
+        document.getElementById(nextphase).classList.remove("hidden");
+        buzzTimes = localStorage.getItem("StopBuzz") === null ? 3 : localStorage.getItem("StopBuzz");
+        next_line_of_archers();
+        play_buzzer(buzzTimes);
+        starttimer("h1-phase-Warning",(buzzTimes * audiotime / 1000));
+      } else {
+        nextphase = "phase-Stop";
+        document.getElementById(nextphase).classList.remove("hidden");
+        buzzTimes = localStorage.getItem("StopBuzz") === null ? 3 : localStorage.getItem("StopBuzz");
+        play_buzzer(buzzTimes);
+
+      }
       break;
     case "phase-Stop":
       nextphase = "phase-GetReady";
@@ -180,6 +192,9 @@ function enable_archers_per_lane(){
     var ArcherSpan = document.createElement('span');
     ArcherSpan.innerHTML = alphabet[i];
     ArcherSpan.id = "archer"+i;
+    if (current_line_of_archers == i){
+      ArcherSpan.classList.add("inverted");
+    }
     archers_per_lane_placeholder.appendChild( ArcherSpan );
     console.log("Add" + alphabet[i]);
   }
@@ -195,13 +210,19 @@ function oposite_color(htmlObject, base_color){
   htmlObject.classList.add("inverted");
   htmlObject.style.color = base_color;
 }
+/**
+ *
+ */
 function starttimer(htmlId,starttime,endtime = 0){
   if (starttime < 0)
     return;
-
+  //reset the timer is its runnning.
+  if (typeof count_down !== 'undefined') {
+    window.clearInterval(count_down);
+  }
   document.getElementById(htmlId).innerHTML = starttime;
   var current_count_down = starttime++;
-  var count_down = setInterval(function() {
+  count_down = setInterval(function() {
     current_count_down--;
     document.getElementById(htmlId).innerHTML = current_count_down;
     if (current_count_down <= endtime) {
@@ -210,4 +231,15 @@ function starttimer(htmlId,starttime,endtime = 0){
     }
 
   },1000);
+}
+function next_line_of_archers() {
+  var ArcherSpan = document.getElementById("archer" + current_line_of_archers);
+  ArcherSpan.classList.remove("inverted");
+  current_line_of_archers++;
+  if (current_line_of_archers >= archers_per_lane) {
+    current_line_of_archers = 0;
+  }
+  ArcherSpan = document.getElementById("archer" + current_line_of_archers);
+  ArcherSpan.classList.add("inverted");
+
 }
