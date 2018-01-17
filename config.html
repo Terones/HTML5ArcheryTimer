@@ -59,10 +59,24 @@
     <div id="timedForm" class="">
         <button onclick="save_all()">safe all</button>
       <form id="form_stages">
-      <fieldset>
-        <legend>number of archers per lane</legend>
-            <input type="number" name="archers_per_lane" min="1" max="6" value="2"> A / B / C / D / E / F
-      </fieldset>
+      <div  class="tooltip">
+        <fieldset>
+          <legend>number of archers per lane</legend>
+              <input type="number" name="archers_per_lane" min="1" max="6" value="2"> A / B / C / D / E / F
+              <span class="tooltiptext">
+                If there is no agreement the positions shall be as follows when two, three or four athletes shoot at the same target face:<br />
+                - athlete A shall shoot on the left, B on the right;<br />
+                - athlete A shall shoot on the left, B in the middle and C on the right;<br />
+                - athlete A and C shall shoot on the left and B and D on the right where AB and CD shoot alternately;<br />
+                If there is no agreement the positions shall be as follows when shooting on multiple set-ups:<br />
+                - when two athletes shoot on two faces: athlete A shall shoot at the left face and B shall shoot at the right face;<br />
+                - when three athletes shoot on three faces: athlete A shall shoot at the bottom left face, B shall shoot at the top face and C shall shoot at the bottom right face;<br />
+                - when four athletes shoot on four faces: athlete A shall shoot at the top left face, B shall shoot at the top right face, C shall shoot at the bottom left face and D shall shoot at the bottom right face;<br />
+                - when four athletes shoot on four vertical triple faces: athlete A shall shoot at the first column, B at the third column, C at the second column and D at the fourth column where AB and CD shoot alternately.<br />
+                During indoor team competions, when using triangular triple faces, each team member shall shoot his two arrows in any order, each arrow at a different scoring area.<br />
+              </span>
+        </fieldset>
+      </div>
       <fieldset>
         <legend>States:</legend>
         <fieldset>
