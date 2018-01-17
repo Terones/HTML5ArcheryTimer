@@ -1,6 +1,5 @@
 var buzzer = new Audio('resources/buzzer.wav');
 var audiotime = 1018;
-var runnermode = localStorage.getItem("runnermode") === null ? "free" : localStorage.getItem("runnermode");
 var currentphase = "phase-Stop";
 var current_line_of_archers = 0;
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('').map((c) => c.toUpperCase());
@@ -13,19 +12,31 @@ function sleep(ms) {
 
 function on_load_Body() {
   //hide_all_phases();
-  console.log("Runnermode = " + runnermode);
   currentphase = "phase-Stop";
+  create_all_phases();
   add_onclick_all_phases();
-  if (runnermode == "free"){
-    set_div_colors_free();
-    disable_archers_per_lane();
-  } else {
-    set_div_colors_timed();
-    enable_archers_per_lane();
+  set_div_colors_timed();
+  enable_archers_per_lane();
+}
+function create_all_phases() {
+  var phases_placeholder = document.getElementById("phases")
+  for (var i = 0; i < 4; i++) {
+    var phasediv = document.createElement('div');
+    var phaseh1 = document.createElement('h1');
+    phaseh1.id = "h1-phase"+i;
+    phaseh1.classList.add("large")
+
+    phasediv.appendChild(phaseh1);
+    phasediv.id = "phase"+i;
+    phasediv.classList.add("max-viewport")
+
+    phases_placeholder.appendChild( phasediv );
+    console.log("Add phase " + phasediv.id);
   }
+
 }
 function add_onclick_all_phases(){
-  var phases = document.getElementsByName("phases");
+  var phases = document.getElementById("phases").childNodes;
   for (var i = 0; i < phases.length; i++) {
     add_next_phase_function(phases[i]);
   }
@@ -34,7 +45,7 @@ function add_next_phase_function(htmlObject){
   htmlObject.onclick = (function(){activate_next_phase();});
 }
 function hide_all_phases(){
-  var phases = document.getElementsByName("phases");
+  var phases = document.getElementById("phases").childNodes;
   for (var i = 0; i < phases.length; i++) {
     if ( !phases[i].classList.contains("hidden") ){
         phases[i].classList.add("hidden");
