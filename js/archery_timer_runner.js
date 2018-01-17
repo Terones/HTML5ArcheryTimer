@@ -1,4 +1,4 @@
-var buzzer = new Audio('buzzer.wav');
+var buzzer = new Audio('resources/buzzer.wav');
 var audiotime = 1018;
 var runnermode = localStorage.getItem("runnermode") === null ? "free" : localStorage.getItem("runnermode");
 var currentphase = "phase-Stop";
