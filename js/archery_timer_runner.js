@@ -19,16 +19,16 @@ function on_load_Body() {
   enable_archers_per_lane();
 }
 function create_all_phases() {
-  var phases_placeholder = document.getElementById("phases")
+  var phases_placeholder = document.getElementById("phases");
   for (var i = 0; i < 4; i++) {
     var phasediv = document.createElement('div');
     var phaseh1 = document.createElement('h1');
     phaseh1.id = "h1-phase"+i;
-    phaseh1.classList.add("large")
+    phaseh1.classList.add("large");
 
     phasediv.appendChild(phaseh1);
     phasediv.id = "phase"+i;
-    phasediv.classList.add("max-viewport")
+    phasediv.classList.add("max-viewport");
 
     phases_placeholder.appendChild( phasediv );
     console.log("Add phase " + phasediv.id);
