@@ -1,4 +1,4 @@
-body {
+body.runner {
   margin:0;
   padding:0;
 }
@@ -88,4 +88,10 @@ div.bottom_right {
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+
+/* input */
+input {
+  min-width: 150px
 }

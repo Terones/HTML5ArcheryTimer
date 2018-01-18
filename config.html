@@ -8,168 +8,49 @@
   <body onload="fill_on_load()">
     <div class="header">
       <h1>Configure the timer</h1>
-      <button onclick="localStorage.clear();location.reload();">clear all</button>
+      <button onclick="save_all()">safe all</button>
+    </div>
+    <div  class="tooltip">
+      <h2>Number of archers per target</h2>
+      <input type="number" name="archers_per_target" min="1" max="6" value="2"> <select name="archery pattern"></select>
+      <span class="tooltiptext">
+        If there is no agreement the positions shall be as follows when two, three or four athletes shoot at the same target face:<br />
+        - athlete A shall shoot on the left, B on the right;<br />
+        - athlete A shall shoot on the left, B in the middle and C on the right;<br />
+        - athlete A and C shall shoot on the left and B and D on the right where AB and CD shoot alternately;<br />
+        If there is no agreement the positions shall be as follows when shooting on multiple set-ups:<br />
+        - when two athletes shoot on two faces: athlete A shall shoot at the left face and B shall shoot at the right face;<br />
+        - when three athletes shoot on three faces: athlete A shall shoot at the bottom left face, B shall shoot at the top face and C shall shoot at the bottom right face;<br />
+        - when four athletes shoot on four faces: athlete A shall shoot at the top left face, B shall shoot at the top right face, C shall shoot at the bottom left face and D shall shoot at the bottom right face;<br />
+        - when four athletes shoot on four vertical triple faces: athlete A shall shoot at the first column, B at the third column, C at the second column and D at the fourth column where AB and CD shoot alternately.<br />
+        During indoor team competions, when using triangular triple faces, each team member shall shoot his two arrows in any order, each arrow at a different scoring area.<br />
+      </span>
     </div>
     <div class="">
-      <form name="type_selector">
-        <input type="radio" name="runnermode" value="free" onclick="handleClick(this);"> Free
-        <input type="radio" name="runnermode" value="timed" onclick="handleClick(this);"> Timed
-      </form>
+      <h2>Phases</h2>
+      <table id="phases">
+        <thead>
+          <th>Order</th>
+          <th>Name</th>
+          <th>Color</th>
+          <th>Timer</th>
+          <th>buzzer</th>
+          <th>label</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#</td>
+            <td><input id="name" type="text" name="name" value=""></td>
+            <td><input id="color" type="color" name="color" value=""></td>
+            <td><input id="timer" type="number" name="timer" value=""></td>
+            <td><input id="buzzer" type="number" name="buzzer" value=""></td>
+            <td><input id="label" type="text" name="label" value=""></td>
+            <td colspan="2"><button type="button" name="button" onclick="add_phase()">add phase</button></td>
+          </tr>
+        <tbody>
+      </table>
     </div>
-    <div id="freeForm" class="">
-        <button onclick="save_all()">safe all</button>
-      <form id="free_form_stages">
-      <fieldset>
-        <legend>States:</legend>
-        <fieldset>
-          <legend>Shooting</legend>
-          <table><tr>
-            <td>
-              Color:
-            </td><td>
-              <input type="color" name="freeShootingColor" value="#43A047">
-            </td>
-          </tr><tr>
-            <td>
-              Buzzers:
-            </td><td>
-              <input type="number" name="freeShootingBuzz" value="1">
-            </td>
-          </tr></table>
-        </fieldset>
-        <fieldset>
-          <legend>Stop</legend>
-          <table><tr>
-            <td>
-              Color:
-            </td><td>
-              <input type="color" name="freeStopColor" value="#E53935">
-            </td>
-          </tr><tr>
-            <td>
-              Buzzers:
-            </td><td>
-              <input type="number" name="freeStopBuzz" value="3">
-            </td>
-          </tr></table>
-        </fieldset>
-      </fieldset>
-      </form>
-    </div><!-- free -->
-    <div id="timedForm" class="">
-        <button onclick="save_all()">safe all</button>
-      <form id="form_stages">
-      <div  class="tooltip">
-        <fieldset>
-          <legend>number of archers per lane</legend>
-              <input type="number" name="archers_per_lane" min="1" max="6" value="2"> A / B / C / D / E / F
-              <span class="tooltiptext">
-                If there is no agreement the positions shall be as follows when two, three or four athletes shoot at the same target face:<br />
-                - athlete A shall shoot on the left, B on the right;<br />
-                - athlete A shall shoot on the left, B in the middle and C on the right;<br />
-                - athlete A and C shall shoot on the left and B and D on the right where AB and CD shoot alternately;<br />
-                If there is no agreement the positions shall be as follows when shooting on multiple set-ups:<br />
-                - when two athletes shoot on two faces: athlete A shall shoot at the left face and B shall shoot at the right face;<br />
-                - when three athletes shoot on three faces: athlete A shall shoot at the bottom left face, B shall shoot at the top face and C shall shoot at the bottom right face;<br />
-                - when four athletes shoot on four faces: athlete A shall shoot at the top left face, B shall shoot at the top right face, C shall shoot at the bottom left face and D shall shoot at the bottom right face;<br />
-                - when four athletes shoot on four vertical triple faces: athlete A shall shoot at the first column, B at the third column, C at the second column and D at the fourth column where AB and CD shoot alternately.<br />
-                During indoor team competions, when using triangular triple faces, each team member shall shoot his two arrows in any order, each arrow at a different scoring area.<br />
-              </span>
-        </fieldset>
-      </div>
-      <fieldset>
-        <legend>States:</legend>
-        <fieldset>
-          <legend>Get Ready</legend>
-          <table><tr>
-            <td>
-              Color:
-            </td><td>
-              <input type="color" name="getReadyColor" value="#E53935">
-            </td>
-          </tr><tr>
-            <td>
-              Time (sec):
-            </td><td>
-              <input type="number" name="getReadyTime" value="20">
-            </td>
-          </tr><tr>
-            <td>
-              Buzzers:
-            </td><td>
-              <input type="number" name="getReadyBuzz" value="2">
-            </td>
-          </tr></table>
-        </fieldset>
-        <fieldset>
-          <legend>Shooting</legend>
-          <table><tr>
-            <td>
-              Color:
-            </td><td>
-              <input type="color" name="ShootingColor" value="#43A047">
-            </td>
-          </tr><tr>
-            <td>
-              Time (sec):
-            </td><td>
-              <input type="number" name="ShootingTime" value="120">
-            </td>
-          </tr><tr>
-            <td>
-              Buzzers:
-            </td><td>
-              <input type="number" name="ShootingBuzz" value="1">
-            </td>
-          </tr></table>
-        </fieldset>
-        <fieldset>
-          <legend>Warning</legend>
-          <table><tr>
-            <td>
-              Color:
-            </td><td>
-              <input type="color" name="WarningColor" value="#FB8C00">
-            </td>
-          </tr><tr>
-            <td>
-              Time (sec):
-            </td><td>
-              <input type="number" name="WarningTime" value="30"> covers the last x seconds from shooting phase
-            </td>
-          </tr><tr>
-            <td>
-              Buzzers:
-            </td><td>
-              <input type="number" name="WarningBuzz" value="0">
-            </td>
-          </tr></table>
-        </fieldset>
-        <fieldset>
-          <legend>Stop</legend>
-          <table><tr>
-            <td>
-              Color:
-            </td><td>
-              <input type="color" name="StopColor" value="#E53935">
-            </td>
-          </tr><tr>
-            <td>
-              Time (sec):
-            </td><td>
-              <input type="number" name="StopTime" value="-1"> (-1 for no timer)
-            </td>
-          </tr><tr>
-            <td>
-              Buzzers:
-            </td><td>
-              <input type="number" name="StopBuzz" value="3">
-            </td>
-          </tr></table>
-        </fieldset>
-      </fieldset>
-      </form>
-    </div>
-
   </body>
 </html>
