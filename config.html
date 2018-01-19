@@ -12,7 +12,8 @@
     </div>
     <div  class="tooltip">
       <h2>Number of archers per target</h2>
-      <input type="number" name="archers_per_target" min="1" max="6" value="2"> <select name="archery pattern"></select>
+      <input id="archers_per_target" type="number" name="archers_per_target" min="1" max="6" onchange="archers_per_target_change(this.value)">
+      <select id="archery_pattern" name="archery pattern" onchange="set_archery_pattern(this.options[this.selectedIndex].value)"></select>
       <span class="tooltiptext">
         If there is no agreement the positions shall be as follows when two, three or four athletes shoot at the same target face:<br />
         - athlete A shall shoot on the left, B on the right;<br />

@@ -92,6 +92,6 @@ div.bottom_right {
 
 
 /* input */
-input {
+input, select {
   min-width: 150px
 }

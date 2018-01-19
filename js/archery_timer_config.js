@@ -3,7 +3,7 @@ if (typeof(Storage) !== "undefined") {
 } else {
     alert("No local storage, unable to run this Config.");
 }
-var archers_per_lane = localStorage.getItem("archers_per_lane") === null ? 1 : localStorage.getItem("archers_per_lane");
+var archers_per_lane = localStorage.getItem("archers_per_target") === null ? 1 : localStorage.getItem("archers_per_target");
 var configuration = localStorage.getItem("configuration") === null ? JSON.parse("[ ]") : JSON.parse(localStorage.getItem("configuration"));
 
 function add_phase(){
@@ -24,13 +24,18 @@ function add_phase(){
   console.log(JSON.stringify(configuration));
 }
 function fill_on_load(){
+  store_default_phases();
   reload_table();
+  var nr_archers = document.getElementById("archers_per_target");
+  nr_archers.value = archers_per_lane;
+  archers_per_target_change(archers_per_lane);
+
 }
 
 function reload_table(){
   var phases_table = document.getElementById("phases");
   console.log(phases_table.rows.length);
-  tempLength = phases_table.rows.length - 1
+  tempLength = phases_table.rows.length - 1;
   for (var i = 1; i < tempLength; i++) {
     console.log("deleteRow");
     phases_table.deleteRow(1);
@@ -62,44 +67,79 @@ function add_delete_function(htmlObject, id){
 function add_edit_function(htmlObject, id){
   htmlObject.onclick = function() { alert("Edit row " + id); };
 }
-// <td><input type="text" name="name" value=""></td>
-// <td><input type="color" name="color" value=""></td>
-// <td><input type="number" name="timer" value=""></td>
-// <td><input type="number" name="buzzer" value=""></td>
-// <td><input type="text" name="label" value=""></td>
 
 
-// function save_all() {
-//   console.log("save_all");
-//   var elements = document.getElementById("form_stages").elements;
-//   console.log(elements);
-//   for (var i = 0; i < elements.length; i++) {
-//     if(elements[i].localName == "input") {
-//         console.log(elements[i].name + " - " + elements[i].value);
-//         localStorage.setItem(elements[i].name, elements[i].value);
-//     }
-//   }
-//   var free_elements = document.getElementById("free_form_stages").elements;
-//   console.log(free_elements);
-//   for (var j = 0; j < free_elements.length; j++) {
-//     if(free_elements[j].localName == "input") {
-//         console.log(free_elements[j].name + " - " + free_elements[j].value);
-//         localStorage.setItem(free_elements[j].name, free_elements[j].value);
-//     }
-//   }
-// }
-// function fill_on_load(){
-//   console.log("fill_on_load");
-//   for (var i = 0; i < localStorage.length; i++){
-//     name = localStorage.key(i);
-//     htmlobject = document.getElementsByName(name);
-//     for (var j = 0; j < htmlobject.length; j++){
-//       console.log(htmlobject[j].type);
-//       if (htmlobject[j].value == localStorage.getItem(name)) {
-//         htmlobject[j].click();
-//       } else if (htmlobject[j].name == name && htmlobject[j].type != "radio") {
-//         htmlobject[j].value = localStorage.getItem(name);
-//       }
-//     }
-//   }
-// }
+function store_default_phases(){
+  localStorage.setItem("config-barebow",'[{"name":"stop","color":"#FF0000","timer":"-1","buzzer":"3","label":"STOP"},{"name":"shoot","color":"#00FF00","timer":"-1","buzzer":"1","label":""}]');
+  localStorage.setItem("config-FITA3",'[{"name":"stop","color":"#FF0000","timer":"-1","buzzer":"3","label":"STOP"},{"name":"get ready","color":"#FF0000","timer":"2","buzzer":"2","label":"{T}"},{"name":"shooting","color":"#00FF00","timer":"120","buzzer":"1","label":"{T}"},{"name":"warning","color":"#FFFF00","timer":"30","buzzer":"0","label":"{T}"}]');
+}
+
+function archers_per_target_change(archers_per_target){
+  console.log("archers_per_target_change " + archers_per_target);
+  localStorage.setItem("archers_per_target",archers_per_target);
+  var pattern_selector = document.getElementById("archery_pattern");
+  console.log(pattern_selector);
+  while (pattern_selector.options.length > 0) {
+    pattern_selector.options.remove(0);
+  }
+  var opt1 = document.createElement("option");
+  var opt2 = document.createElement("option");
+  var opt3 = document.createElement("option");
+  var opt4 = document.createElement("option");
+  var opt5 = document.createElement("option");
+  switch (parseInt(archers_per_target)) {
+    case 1:
+      opt1.text = "A";
+      pattern_selector.options.add(opt1);
+      break;
+    case 2:
+      opt1.text = "A / B";
+      pattern_selector.options.add(opt1);
+      break;
+    case 3:
+      opt1.text = "A / B / C";
+      pattern_selector.options.add(opt1);
+      opt2.text = "AB / C";
+      pattern_selector.options.add(opt2);
+      opt3.text = "AC / B";
+      pattern_selector.options.add(opt3);
+      break;
+    case 4:
+      opt1.text = "A / B / C / D";
+      pattern_selector.options.add(opt1);
+      opt2.text = "AB / CD";
+      pattern_selector.options.add(opt2);
+      opt3.text = "AC / BD";
+      pattern_selector.options.add(opt3);
+      break;
+    case 5:
+      opt1.text = "A / B / C / D / E";
+      pattern_selector.options.add(opt1);
+      opt2.text = "AB / CD / E";
+      pattern_selector.options.add(opt2);
+      opt3.text = "AD / BE / C";
+      pattern_selector.options.add(opt3);
+      opt4.text = "ABC / DE";
+      pattern_selector.options.add(opt4);
+      opt5.text = "ACE / BD";
+      pattern_selector.options.add(opt5);
+      break;
+    case 6:
+      opt1.text = "A / B / C / D / E / F";
+      pattern_selector.options.add(opt1);
+      opt2.text = "AB / CD / EF";
+      pattern_selector.options.add(opt2);
+      opt3.text = "AD / BE / CF";
+      pattern_selector.options.add(opt3);
+      opt4.text = "ABC / DEF";
+      pattern_selector.options.add(opt4);
+      opt5.text = "ACE / BDF";
+      pattern_selector.options.add(opt5);
+      break;
+  }
+  localStorage.setItem("archery_pattern",opt1.text);
+
+}
+function set_archery_pattern(pattern){
+  localStorage.setItem("archery_pattern",pattern);
+}
