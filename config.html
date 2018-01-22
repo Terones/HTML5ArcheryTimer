@@ -8,7 +8,10 @@
   <body onload="fill_on_load()">
     <div class="header">
       <h1>Configure the timer</h1>
-      <button onclick="save_all()">safe all</button>
+      <select id="saved_config" name="Saved config" onchange="set_saved_config(this.options[this.selectedIndex].value)">
+        <option value="">&nbsp;</option>
+      </select>
+      <button id="save_current" type="button" name="button" onclick="save_current()">Save current as...</button>
     </div>
     <div  class="tooltip">
       <h2>Number of archers per target</h2>
@@ -35,6 +38,7 @@
           <th>Name</th>
           <th>Color</th>
           <th>Timer</th>
+          <th>next phase at</th>
           <th>buzzer</th>
           <th>label</th>
           <th>&nbsp;</th>
@@ -46,6 +50,7 @@
             <td><input id="name" type="text" name="name" value=""></td>
             <td><input id="color" type="color" name="color" value=""></td>
             <td><input id="timer" type="number" name="timer" value=""></td>
+            <td><input id="nextphase" type="number" name="nextphase" value="0"></td>
             <td><input id="buzzer" type="number" name="buzzer" value=""></td>
             <td><input id="label" type="text" name="label" value=""></td>
             <td colspan="2"><button type="button" name="button" onclick="add_phase()">add phase</button></td>
