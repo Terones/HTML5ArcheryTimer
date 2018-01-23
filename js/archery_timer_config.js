@@ -6,7 +6,7 @@ if (typeof(Storage) !== "undefined") {
 var archers_per_target = localStorage.getItem("archers_per_target") === null ? 1 : localStorage.getItem("archers_per_target");
 var archery_pattern = localStorage.getItem("archery_pattern") === null ? 1 : localStorage.getItem("archery_pattern");
 var configuration = localStorage.getItem("configuration") === null ? JSON.parse("[ ]") : JSON.parse(localStorage.getItem("configuration"));
-
+var ends_before_retrieval = localStorage.getItem("ends_before_retrieval") === null ? 1 : localStorage.getItem("ends_before_retrieval");
 function add_phase(){
   var name = document.getElementById("name").value;
   var color = document.getElementById("color").value;
@@ -34,6 +34,8 @@ function fill_on_load(){
   archers_per_target_change(archers_per_target);
   document.getElementById("archery_pattern").value = temp_archery_pattern;
   localStorage.setItem("archery_pattern",temp_archery_pattern);
+  document.getElementById("ends_before_retrieval").value = ends_before_retrieval;
+
   fill_saved_config();
 }
 
@@ -55,8 +57,9 @@ function reload_table(){
     row.insertCell(5).innerHTML = configuration[j].buzzer;
     row.insertCell(6).innerHTML = configuration[j].label;
     var editcell = row.insertCell(7);
-    editcell.innerHTML = "Edit";
-    add_edit_function(editcell,j);
+    //TODO: Add function to edit a phase
+    //editcell.innerHTML = "Edit";
+    //add_edit_function(editcell,j);
     var deletecel = row.insertCell(8);
     deletecel.innerHTML = "Delete";
     add_delete_function(deletecel,j);
@@ -76,9 +79,9 @@ function add_edit_function(htmlObject, id){
 
 
 function store_default_phases(){
-  localStorage.setItem("config-barebow",'{"archers_per_target": 1,"archery_pattern": "A", "configuration": [{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"shoot","color":"#00FF00","timer":"-1","nextphase":"0","buzzer":"1","label":""}]}');
-  localStorage.setItem("config-FITA-4",'{"archers_per_target": 4,"archery_pattern": "AB / CD", "configuration": [{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"get ready","color":"#FF0000","timer":"2","nextphase":"0","buzzer":"2","label":"{T}"},{"name":"shooting","color":"#00FF00","timer":"120","nextphase":"30","buzzer":"1","label":"{T}"},{"name":"warning","color":"#FFFF00","timer":"30","nextphase":"0","buzzer":"0","label":"{T}"}]}');
-  localStorage.setItem("config-Faceoff-AB-20sec", '{"archers_per_target":"1","archery_pattern":"A","configuration":[{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"Shoot Archer A","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"A - {T}"},{"name":"Shoot Archer B","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"B - {T}"},{"name":"Shoot Archer A","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"A - {T}"},{"name":"Shoot Archer B","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"B - {T}"},{"name":"Shoot Archer A","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"A - {T}"},{"name":"Shoot Archer B","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"B - {T}"}]}');
+  localStorage.setItem("config-barebow",'{"archers_per_target": 1,"archery_pattern": "A","ends_before_retrieval": 1, "configuration": [{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"shoot","color":"#00FF00","timer":"-1","nextphase":"0","buzzer":"1","label":""}]}');
+  localStorage.setItem("config-FITA-4",'{"archers_per_target": 4,"archery_pattern": "AB / CD","ends_before_retrieval": 1, "configuration": [{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"get ready","color":"#FF0000","timer":"20","nextphase":"0","buzzer":"2","label":"{T}"},{"name":"shooting","color":"#00FF00","timer":"120","nextphase":"30","buzzer":"1","label":"{T}"},{"name":"warning","color":"#FF7F00","timer":"30","nextphase":"0","buzzer":"0","label":"{T}"}]}');
+  localStorage.setItem("config-Faceoff-AB-20sec", '{"archers_per_target":"1","archery_pattern":"A / B","ends_before_retrieval": 3,"configuration":[{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"Shooting","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"{T}"}]}');
 }
 
 function archers_per_target_change(archers_per_target){
@@ -151,6 +154,11 @@ function set_archery_pattern(pattern){
   localStorage.setItem("archery_pattern",pattern);
 }
 
+function ends_before_retrieval_change(ends_before_retrieval){
+  console.log("ends_before_retrieval_change " + ends_before_retrieval);
+  localStorage.setItem("ends_before_retrieval",ends_before_retrieval);
+}
+
 function set_saved_config(config){
   if(config == "") //exit function if you choose the first (empty) option)
     return;
@@ -166,6 +174,7 @@ function set_saved_config(config){
   config_to_be = JSON.parse(config);
   localStorage.setItem("archery_pattern",config_to_be.archery_pattern);
   localStorage.setItem("archers_per_target",config_to_be.archers_per_target);
+  localStorage.setItem("ends_before_retrieval",config_to_be.ends_before_retrieval);
   localStorage.setItem("configuration",JSON.stringify(config_to_be.configuration));
   location.reload();
 
@@ -190,6 +199,7 @@ function save_current(){
     var config = {
       "archers_per_target": archers_per_target,
       "archery_pattern": archery_pattern,
+      "ends_before_retrieval": ends_before_retrieval,
       "configuration": configuration
     };
     localStorage.setItem(config_name,JSON.stringify(config));

@@ -14,12 +14,15 @@ div.max-viewport {
 div.hidden {
   display: none;
 }
+p.hidden {
+  display: none;
+}
 h1.large {
   letter-spacing: 5px;
   font-size: 25vw;
   text-transform: uppercase;
 }
-p.archers_per_lane {
+p.archers_per_target {
   letter-spacing: 20px;
   font-size: 10vw;
   margin:0;
@@ -65,13 +68,13 @@ div.bottom_right {
   background-color: #555;
   color: #fff;
   text-align: left;
-  padding: 5px 0;
+  padding: 10px;
   border-radius: 6px;
   z-index: 1;
   opacity: 0;
   transition: opacity 0.3s;
-  top: -5px;
-  left: 125%;
+  top: -10px;
+  left: 105%;
 }
 
 .tooltip .tooltiptext::after {

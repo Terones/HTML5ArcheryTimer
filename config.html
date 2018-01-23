@@ -13,22 +13,33 @@
       </select>
       <button id="save_current" type="button" name="button" onclick="save_current()">Save current as...</button>
     </div>
-    <div  class="tooltip">
+    <div  class="">
       <h2>Number of archers per target</h2>
-      <input id="archers_per_target" type="number" name="archers_per_target" min="1" max="6" onchange="archers_per_target_change(this.value)">
-      <select id="archery_pattern" name="archery pattern" onchange="set_archery_pattern(this.options[this.selectedIndex].value)"></select>
-      <span class="tooltiptext">
-        If there is no agreement the positions shall be as follows when two, three or four athletes shoot at the same target face:<br />
-        - athlete A shall shoot on the left, B on the right;<br />
-        - athlete A shall shoot on the left, B in the middle and C on the right;<br />
-        - athlete A and C shall shoot on the left and B and D on the right where AB and CD shoot alternately;<br />
-        If there is no agreement the positions shall be as follows when shooting on multiple set-ups:<br />
-        - when two athletes shoot on two faces: athlete A shall shoot at the left face and B shall shoot at the right face;<br />
-        - when three athletes shoot on three faces: athlete A shall shoot at the bottom left face, B shall shoot at the top face and C shall shoot at the bottom right face;<br />
-        - when four athletes shoot on four faces: athlete A shall shoot at the top left face, B shall shoot at the top right face, C shall shoot at the bottom left face and D shall shoot at the bottom right face;<br />
-        - when four athletes shoot on four vertical triple faces: athlete A shall shoot at the first column, B at the third column, C at the second column and D at the fourth column where AB and CD shoot alternately.<br />
-        During indoor team competions, when using triangular triple faces, each team member shall shoot his two arrows in any order, each arrow at a different scoring area.<br />
-      </span>
+      <div  class="tooltip">
+        <input id="archers_per_target" type="number" name="archers_per_target" min="1" max="6" onchange="archers_per_target_change(this.value)">
+        <select id="archery_pattern" name="archery pattern" onchange="set_archery_pattern(this.options[this.selectedIndex].value)"></select>
+        <span class="tooltiptext">
+          If there is no agreement the positions shall be as follows when two, three or four athletes shoot at the same target face:<br />
+          - athlete A shall shoot on the left, B on the right;<br />
+          - athlete A shall shoot on the left, B in the middle and C on the right;<br />
+          - athlete A and C shall shoot on the left and B and D on the right where AB and CD shoot alternately;<br />
+          If there is no agreement the positions shall be as follows when shooting on multiple set-ups:<br />
+          - when two athletes shoot on two faces: athlete A shall shoot at the left face and B shall shoot at the right face;<br />
+          - when three athletes shoot on three faces: athlete A shall shoot at the bottom left face, B shall shoot at the top face and C shall shoot at the bottom right face;<br />
+          - when four athletes shoot on four faces: athlete A shall shoot at the top left face, B shall shoot at the top right face, C shall shoot at the bottom left face and D shall shoot at the bottom right face;<br />
+          - when four athletes shoot on four vertical triple faces: athlete A shall shoot at the first column, B at the third column, C at the second column and D at the fourth column where AB and CD shoot alternately.<br />
+          During indoor team competions, when using triangular triple faces, each team member shall shoot his two arrows in any order, each arrow at a different scoring area.<br />
+        </span>
+      </div>
+    </div>
+    <div  class="">
+      <h2>Number of ends before arrow retrieval</h2>
+      <div  class="tooltip">
+        <input id="ends_before_retrieval" type="number" name="ends_before_retrieval" min="1" value="1" onchange="ends_before_retrieval_change(this.value)">
+        <span class="tooltiptext">
+          This feature is for faceoff having a single arrow shot alternately
+        </span>
+      </div>
     </div>
     <div class="">
       <h2>Phases</h2>
@@ -38,9 +49,9 @@
           <th>Name</th>
           <th>Color</th>
           <th>Timer</th>
-          <th>next phase at</th>
-          <th>buzzer</th>
-          <th>label</th>
+          <th>Next phase at</th>
+          <th>Buzzer</th>
+          <th>Label</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
         </thead>
