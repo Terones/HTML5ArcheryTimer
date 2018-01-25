@@ -45,6 +45,11 @@ div.top_right {
   right: 0;
   width: 50px;
 }
+div.top_left {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 div.bottom_right {
   position: fixed;
   bottom: 0;
