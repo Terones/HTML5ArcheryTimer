@@ -9,10 +9,6 @@ var archers_per_target = archery_pattern.length;
 var ends_before_retrieval = localStorage.getItem("ends_before_retrieval") === null ? 1 : localStorage.getItem("ends_before_retrieval");
 var configuration = localStorage.getItem("configuration") === null ? JSON.parse("[ ]") : JSON.parse(localStorage.getItem("configuration"));
 var count_down;
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-  //await sleep(audiotime);
-}
 
 function on_load_Body() {
   //hide_all_phases();
@@ -167,20 +163,22 @@ audio features
 var buzzer = new Audio('resources/buzzer.wav');
 var audiotime = 0.500; //letting the buzzer only play for about an half a second.
 async function play_buzzer(x) { // jshint ignore:line
-  if (x == 0)
+  if (x == 0) {
     return;
-  console.log("play_buzzer-"+x);
-	buzzer.play();
-  while (buzzer.currentTime < audiotime) {
-    await sleep(audiotime*1000/10); // jshint ignore:line
   }
-  for (var i = 1; i < x; i++) {
+  console.log("play_buzzer-"+x);
+  for (var i = 0; i < x; i++) {
+    console.log("play_buzzer " + (i+1));
   	buzzer.currentTime = 0;
-    console.log("play_buzzer again");
+    buzzer.play();
     while (buzzer.currentTime < audiotime) {
       await sleep(audiotime*1000/10); // jshint ignore:line
     }
+    buzzer.pause(); // stop playing
   }
-  buzzer.pause(); // stop playing
-  buzzer.currentTime = 0; // reset the buzzer
+
+}
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+  //await sleep(audiotime);
 }
