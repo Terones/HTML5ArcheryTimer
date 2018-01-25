@@ -8,12 +8,12 @@ var archery_pattern = localStorage.getItem("archery_pattern") === null ? 1 : loc
 var configuration = localStorage.getItem("configuration") === null ? JSON.parse("[ ]") : JSON.parse(localStorage.getItem("configuration"));
 var ends_before_retrieval = localStorage.getItem("ends_before_retrieval") === null ? 1 : localStorage.getItem("ends_before_retrieval");
 function add_phase(){
-  var name = document.getElementById("name").value;
-  var color = document.getElementById("color").value;
-  var timer = document.getElementById("timer").value;
-  var nextphase = document.getElementById("nextphase").value;
-  var buzzer = document.getElementById("buzzer").value;
-  var label = document.getElementById("label").value;
+  let name = document.getElementById("name").value;
+  let color = document.getElementById("color").value;
+  let timer = document.getElementById("timer").value;
+  let nextphase = document.getElementById("nextphase").value;
+  let buzzer = document.getElementById("buzzer").value;
+  let label = document.getElementById("label").value;
   configuration.push({
       "name" : name,
       "color" : color,
@@ -29,7 +29,7 @@ function add_phase(){
 function fill_on_load(){
   store_default_phases();
   reload_table();
-  var temp_archery_pattern = archery_pattern;
+  let temp_archery_pattern = archery_pattern;
   document.getElementById("archers_per_target").value = archers_per_target;
   archers_per_target_change(archers_per_target);
   document.getElementById("archery_pattern").value = temp_archery_pattern;
@@ -40,30 +40,30 @@ function fill_on_load(){
 }
 
 function reload_table(){
-  var phases_table = document.getElementById("phases");
+  let phases_table = document.getElementById("phases");
   console.log(phases_table.rows.length);
   tempLength = phases_table.rows.length - 1;
-  for (var i = 1; i < tempLength; i++) {
+  for (let i = 1; i < tempLength; i++) {
     console.log("deleteRow");
     phases_table.deleteRow(1);
   }
-  for (var j = 0; j < configuration.length; j++) {
-    var row = phases_table.insertRow(phases_table.rows.length - 1);
-    row.insertCell(0).innerHTML = j;
-    row.insertCell(1).innerHTML = configuration[j].name;
-    row.insertCell(2).innerHTML = configuration[j].color;
-    row.insertCell(3).innerHTML = configuration[j].timer;
-    row.insertCell(4).innerHTML = configuration[j].nextphase;
-    row.insertCell(5).innerHTML = configuration[j].buzzer;
-    row.insertCell(6).innerHTML = configuration[j].label;
-    var editcell = row.insertCell(7);
+  for (let i = 0; i < configuration.length; i++) {
+    let row = phases_table.insertRow(phases_table.rows.length - 1);
+    row.insertCell(0).innerHTML = i;
+    row.insertCell(1).innerHTML = configuration[i].name;
+    row.insertCell(2).innerHTML = configuration[i].color;
+    row.insertCell(3).innerHTML = configuration[i].timer;
+    row.insertCell(4).innerHTML = configuration[i].nextphase;
+    row.insertCell(5).innerHTML = configuration[i].buzzer;
+    row.insertCell(6).innerHTML = configuration[i].label;
+    let editcell = row.insertCell(7);
     //TODO: Add function to edit a phase
     //editcell.innerHTML = "Edit";
-    //add_edit_function(editcell,j);
-    var deletecel = row.insertCell(8);
+    //add_edit_function(editcell,i);
+    let deletecel = row.insertCell(8);
     deletecel.innerHTML = "Delete";
-    add_delete_function(deletecel,j);
-    console.log(configuration[j]);
+    add_delete_function(deletecel,i);
+    console.log(configuration[i]);
   }
 }
 function add_delete_function(htmlObject, id){
@@ -87,16 +87,16 @@ function store_default_phases(){
 function archers_per_target_change(archers_per_target){
   console.log("archers_per_target_change " + archers_per_target);
   localStorage.setItem("archers_per_target",archers_per_target);
-  var pattern_selector = document.getElementById("archery_pattern");
+  let pattern_selector = document.getElementById("archery_pattern");
   console.log(pattern_selector);
   while (pattern_selector.options.length > 0) {
     pattern_selector.options.remove(0);
   }
-  var opt1 = document.createElement("option");
-  var opt2 = document.createElement("option");
-  var opt3 = document.createElement("option");
-  var opt4 = document.createElement("option");
-  var opt5 = document.createElement("option");
+  let opt1 = document.createElement("option");
+  let opt2 = document.createElement("option");
+  let opt3 = document.createElement("option");
+  let opt4 = document.createElement("option");
+  let opt5 = document.createElement("option");
   switch (parseInt(archers_per_target)) {
     case 1:
       opt1.text = "A";
@@ -180,11 +180,11 @@ function set_saved_config(config){
 
 }
 function fill_saved_config(){
-  var saved_config_selector = document.getElementById("saved_config");
-  for (var i = 0; i < localStorage.length; i++){
+  let saved_config_selector = document.getElementById("saved_config");
+  for (let i = 0; i < localStorage.length; i++){
     if (localStorage.key(i).startsWith("config-")){
       console.log("Read from storage " + localStorage.key(i) + " : " + localStorage.getItem(localStorage.key(i)));
-      var opt = document.createElement("option");
+      let opt = document.createElement("option");
       opt.text = localStorage.key(i);
       opt.value = localStorage.getItem(localStorage.key(i));
       saved_config_selector.options.add(opt);
@@ -193,10 +193,10 @@ function fill_saved_config(){
   }
 }
 function save_current(){
-  var config_name = prompt("Please enter a name (start with 'config-')", "config-");
+  let config_name = prompt("Please enter a name (start with 'config-')", "config-");
   console.log("saving " + config_name);
   if (config_name != null) {
-    var config = {
+    let config = {
       "archers_per_target": archers_per_target,
       "archery_pattern": archery_pattern,
       "ends_before_retrieval": ends_before_retrieval,

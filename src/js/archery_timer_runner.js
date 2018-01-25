@@ -23,14 +23,14 @@ function on_load_Body() {
 }
 function create_all_phases() {
   //{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"}
-  var phases_placeholder = document.getElementById("phases");
+  let phases_placeholder = document.getElementById("phases");
   //an empty div has a text child, I want to make sure its nonexistent
   while (phases_placeholder.firstChild) {
     phases_placeholder.removeChild(phases_placeholder.firstChild);
   }
-  for (var i = 0; i < configuration.length; i++) {
-    var phasediv = document.createElement('div');
-    var phaseh1 = document.createElement('h1');
+  for (let i = 0; i < configuration.length; i++) {
+    let phasediv = document.createElement('div');
+    let phaseh1 = document.createElement('h1');
     phaseh1.id = "h1-phase"+i;
     phaseh1.classList.add("large");
     phaseh1.innerHTML = configuration[i].label.replace("{T}",configuration[i].timer);
@@ -48,8 +48,8 @@ function create_all_phases() {
 }
 
 function add_onclick_all_phases(){
-  var phases = document.getElementById("phases").childNodes;
-  for (var i = 0; i < phases.length; i++) {
+  let phases = document.getElementById("phases").childNodes;
+  for (let i = 0; i < phases.length; i++) {
     add_next_phase_function(phases[i]);
   }
 }
@@ -59,8 +59,8 @@ function add_next_phase_function(htmlObject){
 }
 
 function hide_all_phases(){
-  var phases = document.getElementById("phases").childNodes;
-  for (var i = 0; i < phases.length; i++) {
+  let phases = document.getElementById("phases").childNodes;
+  for (let i = 0; i < phases.length; i++) {
     if ( !phases[i].classList.contains("hidden") ){
         phases[i].classList.add("hidden");
     }
@@ -69,21 +69,19 @@ function hide_all_phases(){
 
 function activate_next_phase(){
   hide_all_phases();
-  var buzzTimes;
+  let buzzTimes;
   currentphase++;
   if(currentphase >= configuration.length){
     currentphase = 0;
     if (archers_per_target - current_line_of_archers > 1 ){
       currentphase = 1;
-    }
-    next_line_of_archers();
-    if (ends_before_retrieval - current_end > 1) {
+    }else if (ends_before_retrieval - current_end > 1) {
       currentphase = 1;
       current_end++;
     }else{
       current_end = 0;
     }
-    //TODO: activate next archer if multiple archer per target
+    next_line_of_archers();
   }
   document.getElementById("phase"+currentphase).classList.remove("hidden");
   play_buzzer(configuration[currentphase].buzzer);
@@ -91,12 +89,12 @@ function activate_next_phase(){
 }
 
 function enable_archers_per_target(){
-  var archers_per_target_placeholder = document.getElementById('archers_per_target');
+  let archers_per_target_placeholder = document.getElementById('archers_per_target');
 
   disable_archers_per_target();
 
-  for (var i = 0; i < archers_per_target; i++) {
-    var ArcherSpan = document.createElement('span');
+  for (let i = 0; i < archers_per_target; i++) {
+    let ArcherSpan = document.createElement('span');
     ArcherSpan.innerHTML = archery_pattern[i];
     ArcherSpan.id = "archer"+i;
     if (current_line_of_archers == i){
@@ -107,7 +105,7 @@ function enable_archers_per_target(){
   }
 }
 function disable_archers_per_target(){
-  var archers_per_target_placeholder = document.getElementById('archers_per_target');
+  let archers_per_target_placeholder = document.getElementById('archers_per_target');
   console.log(archers_per_target_placeholder);
   if (archers_per_target_placeholder.childNodes.length == 0)
     return;
@@ -116,7 +114,7 @@ function disable_archers_per_target(){
   }
 }
 function next_line_of_archers() {
-  var ArcherSpan = document.getElementById("archer" + current_line_of_archers);
+  let ArcherSpan = document.getElementById("archer" + current_line_of_archers);
   ArcherSpan.classList.remove("inverted");
   current_line_of_archers++;
   if (current_line_of_archers >= archers_per_target) {
@@ -146,7 +144,7 @@ function starttimer(htmlId,starttime,endtime = 0){
 
   //configuration[i].label.replace("{T}",configuration[i].timer);
   document.getElementById(htmlId).innerHTML = configuration[currentphase].label.replace("{T}",starttime);
-  var current_count_down = starttime++;
+  let current_count_down = starttime++;
   count_down = setInterval(function() {
     current_count_down--;
     document.getElementById(htmlId).innerHTML = configuration[currentphase].label.replace("{T}",current_count_down);
@@ -160,14 +158,14 @@ function starttimer(htmlId,starttime,endtime = 0){
 /*
 audio features
 */
-var buzzer = new Audio('resources/buzzer.wav');
-var audiotime = 0.500; //letting the buzzer only play for about an half a second.
+let buzzer = new Audio('resources/buzzer.wav');
+let audiotime = 0.500; //letting the buzzer only play for about an half a second.
 async function play_buzzer(x) { // jshint ignore:line
   if (x == 0) {
     return;
   }
   console.log("play_buzzer-"+x);
-  for (var i = 0; i < x; i++) {
+  for (let i = 0; i < x; i++) {
     console.log("play_buzzer " + (i+1));
   	buzzer.currentTime = 0;
     buzzer.play();
