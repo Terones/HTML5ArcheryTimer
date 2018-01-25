@@ -81,7 +81,7 @@ function add_edit_function(htmlObject, id){
 function store_default_phases(){
   localStorage.setItem("config-barebow",'{"archers_per_target": 1,"archery_pattern": "A","ends_before_retrieval": 1, "configuration": [{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"shoot","color":"#00FF00","timer":"-1","nextphase":"0","buzzer":"1","label":""}]}');
   localStorage.setItem("config-FITA-4",'{"archers_per_target": 4,"archery_pattern": "AB / CD","ends_before_retrieval": 1, "configuration": [{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"get ready","color":"#FF0000","timer":"20","nextphase":"0","buzzer":"2","label":"{T}"},{"name":"shooting","color":"#00FF00","timer":"120","nextphase":"30","buzzer":"1","label":"{T}"},{"name":"warning","color":"#FF7F00","timer":"30","nextphase":"0","buzzer":"0","label":"{T}"}]}');
-  localStorage.setItem("config-Faceoff-AB-20sec", '{"archers_per_target":"1","archery_pattern":"A / B","ends_before_retrieval": 3,"configuration":[{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"Shooting","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"{T}"}]}');
+  localStorage.setItem("config-Faceoff-AB-20sec", '{"archers_per_target":"2","archery_pattern":"A / B","ends_before_retrieval": 3,"configuration":[{"name":"stop","color":"#FF0000","timer":"-1","nextphase":"0","buzzer":"3","label":"STOP"},{"name":"Shooting","color":"#00FF00","timer":"20","nextphase":"0","buzzer":"1","label":"{T}"}]}');
 }
 
 function archers_per_target_change(archers_per_target){
