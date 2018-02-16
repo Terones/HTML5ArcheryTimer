@@ -3,6 +3,8 @@
 
 ![Screenshot](running_example.gif)
 
+![ConfigureScreen](configure.png)
+
 ## Installation
 
 Copy the source files from the src folder. Open config.html with your html5 compliant browser.
